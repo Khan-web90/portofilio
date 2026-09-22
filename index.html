@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<!--
+  Personal portfolio — Huzaifa Khan.
+  Sections: 1) Hero (with status pill + marquee)  2) About (with stats + skills)
+            3) Selected work (device-frame project cards)
+            4) Contact (inverted, with magnetic email)  5) Footer
+
+  Still TODO (optional):
+    - About paragraph (currently a generic dev bio — feel free to rewrite)
+    - Project tech tags (currently reasonable defaults)
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <title>Huzaifa Khan — Web Developer &amp; Designer</title>
+  <meta name="description" content="Personal portfolio of Huzaifa Khan — web developer & designer." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #000000;
+      --rule: #000000;
+      --muted: #6b6b6b;
+      --pad-x: clamp(20px, 5vw, 56px);
+      --font: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body, h1, h2, h3, p, ol, ul, li, a, span, div { margin: 0; padding: 0; }
+    ol, ul { list-style: none; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      /* Subtle noise texture for premium feel (data-URI SVG, tiny, no extra request) */
+      background-image:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      background-repeat: repeat;
+    }
+
+    ::selection { background: var(--fg); color: var(--bg); }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    /* =========================================================
+       PRELOADER
+       ========================================================= */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .preloader.done {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .preloader-mark {
+      font-weight: 700;
+      font-size: clamp(80px, 16vw, 180px);
+      letter-spacing: -0.06em;
+      line-height: 0.85;
+      animation: preloader-pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes preloader-pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.95); opacity: 0.4; }
+    }
+
+    /* =========================================================
+       SCROLL-REVEAL
+       ========================================================= */
+    .reveal,
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+                  transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-stagger > * { transition-delay: 0s; }
+    .reveal.revealed,
+    .reveal-stagger.revealed > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-stagger.revealed > *:nth-child(1) { transition-delay: 0.05s; }
+    .reveal-stagger.revealed > *:nth-child(2) { transition-delay: 0.12s; }
+    .reveal-stagger.revealed > *:nth-child(3) { transition-delay: 0.19s; }
+    .reveal-stagger.revealed > *:nth-child(4) { transition-delay: 0.26s; }
+    .reveal-stagger.revealed > *:nth-child(5) { transition-delay: 0.33s; }
+    .reveal-stagger.revealed > *:nth-child(6) { transition-delay: 0.40s; }
+    .reveal-stagger.revealed > *:nth-child(7) { transition-delay: 0.47s; }
+    .reveal-stagger.revealed > *:nth-child(8) { transition-delay: 0.54s; }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+    header {
+      padding: clamp(48px, 8vw, 96px) 0 clamp(40px, 6vw, 72px);
+      border-bottom: 2px solid var(--rule);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 16px 7px 12px;
+      border: 1.5px solid var(--fg);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: clamp(24px, 4vw, 48px);
+      background: var(--bg);
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--fg);
+      position: relative;
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.45); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+    }
+
+    .monogram {
+      font-weight: 700;
+      font-size: clamp(120px, 24vw, 280px);
+      line-height: 0.85;
+      letter-spacing: -0.06em;
+      margin-bottom: clamp(8px, 2vw, 24px);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: clamp(56px, 12vw, 160px);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      margin-bottom: clamp(12px, 2vw, 24px);
+    }
+
+    .role {
+      font-weight: 500;
+      font-size: clamp(20px, 3vw, 36px);
+      letter-spacing: -0.01em;
+      max-width: 22ch;
+    }
+
+    .hero-sub {
+      margin-top: clamp(8px, 1.5vw, 16px);
+      font-size: clamp(13px, 1.3vw, 16px);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* =========================================================
+       MARQUEE STRIP
+       ========================================================= */
+    .marquee {
+      margin-top: clamp(32px, 5vw, 56px);
+      background: var(--fg);
+      color: var(--bg);
+      padding: clamp(14px, 1.6vw, 20px) 0;
+      overflow: hidden;
+      position: relative;
+      margin-left: calc(-1 * var(--pad-x));
+      margin-right: calc(-1 * var(--pad-x));
+    }
+    .marquee::before,
+    .marquee::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: clamp(40px, 8vw, 100px);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .marquee::before {
+      left: 0;
+      background: linear-gradient(to right, var(--fg), transparent);
+    }
+    .marquee::after {
+      right: 0;
+      background: linear-gradient(to left, var(--fg), transparent);
+    }
+    .marquee-track {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee 38s linear infinite;
+      will-change: transform;
+    }
+    .marquee-item {
+      font-weight: 700;
+      font-size: clamp(13px, 1.4vw, 18px);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0 clamp(14px, 2vw, 24px);
+      display: inline-flex;
+      align-items: center;
+      gap: clamp(14px, 2vw, 24px);
+    }
+    .marquee-item::after {
+      content: "✦";
+      font-size: 0.7em;
+      opacity: 0.55;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; }
+    }
+
+    /* =========================================================
+       SECTIONS — shared
+       ========================================================= */
+    section {
+      padding: clamp(56px, 9vw, 110px) 0;
+      border-bottom: 2px solid var(--rule);
+    }
+    section:last-of-type { border-bottom: none; }
+
+    h2 {
+      font-weight: 700;
+      font-size: clamp(13px, 1.4vw, 16px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: clamp(28px, 4vw, 48px);
+      display: flex;
+      align-items: baseline;
+      gap: 1.5em;
+    }
+    .num {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* =========================================================
+       ABOUT
+       ========================================================= */
+    #about p.lead {
+      font-weight: 500;
+      font-size: clamp(22px, 3.2vw, 42px);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      max-width: 24ch;
+    }
+
+    .stats {
+      margin-top: clamp(40px, 6vw, 72px);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 2px solid var(--fg);
+      border-bottom: 2px solid var(--fg);
+    }
+    .stat {
+      padding: clamp(20px, 3vw, 36px) clamp(14px, 2vw, 20px);
+      border-right: 1px solid var(--fg);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-weight: 700;
+      font-size: clamp(40px, 7vw, 88px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-num .suffix {
+      font-size: 0.4em;
+      vertical-align: top;
+      margin-left: 0.1em;
+      font-weight: 500;
+    }
+    .stat-label {
+      margin-top: 8px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      opacity: 0.65;
+    }
+
+    .skills {
+      margin-top: clamp(28px, 4vw, 48px);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .skill {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      border: 1.5px solid var(--fg);
+      border-radius: 100px;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .skill:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    /* =========================================================
+       WORK — project cards with device frames
+       ========================================================= */
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(28px, 4vw, 56px);
+    }
+
+    .project-card {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .project-card:hover { transform: translateY(-6px); }
+
+    .device-frame {
+      border: 2px solid var(--fg);
+      border-radius: 10px 10px 0 0;
+      overflow: hidden;
+      background: var(--bg);
+      margin-bottom: clamp(20px, 3vw, 28px);
+      transition: box-shadow 0.4s ease;
+      position: relative;
+    }
+    .project-card:hover .device-frame {
+      box-shadow: 8px 8px 0 0 var(--fg);
+    }
+
+    .device-bar {
+      background: var(--fg);
+      color: var(--bg);
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+    .device-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+    }
+    .device-url {
+      margin-left: 14px;
+      font-weight: 500;
+      opacity: 0.7;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .device-screen {
+      min-height: 260px;
+      padding: clamp(22px, 3.5vw, 40px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+      background-position: -1px -1px;
+      position: relative;
+    }
+    .device-title {
+      font-weight: 700;
+      font-size: clamp(28px, 4vw, 52px);
+      line-height: 0.95;
+      letter-spacing: -0.035em;
+      max-width: 90%;
+    }
+    .device-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .project-title {
+      font-weight: 700;
+      font-size: clamp(22px, 2.5vw, 32px);
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .project-desc {
+      font-size: clamp(14px, 1.25vw, 16px);
+      line-height: 1.55;
+      opacity: 0.72;
+      margin-bottom: 18px;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .project-tags span {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 5px 10px;
+      border: 1.5px solid var(--fg);
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .project-card:hover .project-tags span {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    /* Status badges */
+    .status {
+      display: inline-block;
+      padding: 0.2em 0.55em 0.25em;
+      font-size: 0.42em;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1.5px solid currentColor;
+      vertical-align: 0.25em;
+      line-height: 1;
+    }
+
+    /* =========================================================
+       CONTACT
+       ========================================================= */
+    #contact {
+      background: var(--fg);
+      color: var(--bg);
+      margin: 0 calc(-1 * var(--pad-x));
+      padding: clamp(64px, 10vw, 120px) var(--pad-x);
+    }
+    #contact h2,
+    #contact .num { color: var(--bg); }
+
+    #contact .email-link {
+      display: inline-block;
+      color: var(--bg);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: clamp(28px, 5.5vw, 72px);
+      letter-spacing: -0.025em;
+      line-height: 1;
+      border-bottom: clamp(2px, 0.4vw, 4px) solid var(--bg);
+      padding-bottom: 0.08em;
+      word-break: break-all;
+      transition: opacity 0.2s ease;
+      will-change: transform;
+    }
+    #contact .email-link:hover { opacity: 0.85; }
+
+    /* Phone — secondary contact under the email */
+    #contact .alt-contact {
+      margin-top: clamp(20px, 2.5vw, 28px);
+      display: flex;
+      align-items: baseline;
+      gap: clamp(10px, 1.4vw, 16px);
+      flex-wrap: wrap;
+    }
+    #contact .alt-label {
+      font-family: var(--mono);
+      font-size: clamp(10px, 1vw, 12px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      font-weight: 500;
+    }
+    #contact .phone-link {
+      color: var(--bg);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: clamp(18px, 2vw, 26px);
+      letter-spacing: -0.005em;
+      border-bottom: 2px solid var(--bg);
+      padding-bottom: 0.05em;
+      transition: opacity 0.2s ease;
+    }
+    #contact .phone-link:hover { opacity: 0.7; }
+    #contact .hint {
+      margin-top: clamp(20px, 3vw, 32px);
+      font-weight: 400;
+      font-size: clamp(13px, 1.2vw, 15px);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    footer {
+      padding: clamp(28px, 4vw, 48px) 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+    @media (max-width: 860px) {
+      .project-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: none; }
+      .stat:nth-child(1),
+      .stat:nth-child(2) { border-bottom: 1px solid var(--fg); }
+
+      footer {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-stagger > * { opacity: 1; transform: none; transition: none; }
+      .pulse-dot { animation: none; }
+      .project-card, .project-card:hover { transform: none; }
+      .project-card:hover .device-frame { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============== PRELOADER ============== -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader-mark">HK</div>
+  </div>
+
+  <main>
+    <!-- ============== HERO ============== -->
+    <header>
+      <div class="status-pill reveal">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        Available for new work
+      </div>
+
+      <div class="monogram reveal" aria-hidden="true">HK</div>
+
+      <h1 class="reveal">Huzaifa Khan</h1>
+
+      <p class="role reveal">Web Developer &amp; Designer</p>
+      <p class="hero-sub reveal">Open to projects worldwide</p>
+
+      <!-- Scrolling marquee strip -->
+      <div class="marquee" aria-label="Skills and focus areas">
+        <div class="marquee-track">
+          <span class="marquee-item">Web Development</span>
+          <span class="marquee-item">UI Design</span>
+          <span class="marquee-item">Performance</span>
+          <span class="marquee-item">Accessibility</span>
+          <span class="marquee-item">Responsive Design</span>
+          <span class="marquee-item">Single-page Builds</span>
+          <span class="marquee-item">Motion</span>
+          <span class="marquee-item">Typography</span>
+          <!-- duplicate set for seamless loop -->
+          <span class="marquee-item" aria-hidden="true">Web Development</span>
+          <span class="marquee-item" aria-hidden="true">UI Design</span>
+          <span class="marquee-item" aria-hidden="true">Performance</span>
+          <span class="marquee-item" aria-hidden="true">Accessibility</span>
+          <span class="marquee-item" aria-hidden="true">Responsive Design</span>
+          <span class="marquee-item" aria-hidden="true">Single-page Builds</span>
+          <span class="marquee-item" aria-hidden="true">Motion</span>
+          <span class="marquee-item" aria-hidden="true">Typography</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============== ABOUT ============== -->
+    <section id="about">
+      <h2 class="reveal"><span class="num">01</span> About</h2>
+      <!-- TODO: Replace with your 1-3 sentence intro -->
+      <p class="lead reveal">
+        I build considered, fast websites for small businesses and
+        creative clients. Recent work focuses on single-page marketing
+        sites — strong typography, smooth motion, and careful attention
+        to mobile performance. Currently open to new projects.
+      </p>
+
+      <div class="stats reveal-stagger">
+        <div class="stat">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Projects built</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">1</div>
+          <div class="stat-label">Live shipped</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">1</div>
+          <div class="stat-label">Mockup pitched</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100<span class="suffix">%</span></div>
+          <div class="stat-label">Mobile-first</div>
+        </div>
+      </div>
+
+      <div class="skills reveal">
+        <span class="skill">HTML5</span>
+        <span class="skill">CSS3</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">Responsive</span>
+        <span class="skill">Performance</span>
+        <span class="skill">Accessibility</span>
+        <span class="skill">UI Design</span>
+        <span class="skill">Typography</span>
+        <span class="skill">Motion</span>
+        <span class="skill">Three.js</span>
+      </div>
+    </section>
+
+    <!-- ============== SELECTED WORK ============== -->
+    <section id="work">
+      <h2 class="reveal"><span class="num">02</span> Selected work</h2>
+
+      <div class="project-grid">
+        <a class="project-card reveal"
+           href="https://aaajay-detailing.onrender.com"
+           target="_blank" rel="noopener noreferrer">
+
+          <div class="device-frame">
+            <div class="device-bar">
+              <span class="device-dot"></span>
+              <span class="device-dot"></span>
+              <span class="device-dot"></span>
+              <span class="device-url">aaajay-detailing.onrender.com</span>
+            </div>
+            <div class="device-screen">
+              <div class="device-title">AAA&amp;JAY<br/>Mobile Detailing</div>
+              <div class="device-meta">
+                <span>2025</span>
+                <span class="status">Live</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-title">
+            AAA&amp;JAY Mobile Detailing
+            <span class="status">Live</span>
+          </div>
+          <p class="project-desc">
+            Live marketing site for a mobile detailing business. Cinematic
+            single-page build with video hero, scroll-driven before/after
+            reveal, and capability detection that strips heavy 3D and video
+            on phones to keep first paint fast.
+          </p>
+          <div class="project-tags">
+            <span>Single-page</span>
+            <span>Video hero</span>
+            <span>Capability detection</span>
+            <span>Three.js</span>
+          </div>
+        </a>
+
+        <a class="project-card reveal"
+           href="https://7dxt8nfoxun1e.space.minimax.io/"
+           target="_blank" rel="noopener noreferrer">
+
+          <div class="device-frame">
+            <div class="device-bar">
+              <span class="device-dot"></span>
+              <span class="device-dot"></span>
+              <span class="device-dot"></span>
+              <span class="device-url">7dxt8nfoxun1e.space.minimax.io</span>
+            </div>
+            <div class="device-screen">
+              <div class="device-title">Full Service<br/>Car Wash</div>
+              <div class="device-meta">
+                <span>2025</span>
+                <span class="status">Mockup</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-title">
+            Full Service Car Wash
+            <span class="status">Mockup</span>
+          </div>
+          <p class="project-desc">
+            Mockup homepage built to pitch to a local car wash. Full marketing
+            layout — sticky nav, video hero, services grid, packages, reviews
+            carousel, and an embedded Google Map. Mobile-first with a sticky
+            call / directions / services action bar.
+          </p>
+          <div class="project-tags">
+            <span>Marketing site</span>
+            <span>Sticky nav</span>
+            <span>Embedded map</span>
+            <span>Mobile action bar</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============== CONTACT ============== -->
+    <section id="contact">
+      <h2 class="reveal"><span class="num">03</span> Contact</h2>
+      <a class="email-link reveal" href="mailto:abdulahmid1877@gmail.com">abdulahmid1877@gmail.com</a>
+
+      <div class="alt-contact reveal">
+        <span class="alt-label">or call</span>
+        <a class="phone-link" href="tel:+923035033344">+92 303 503 3344</a>
+      </div>
+
+      <p class="hint reveal">Open to new projects — let's talk.</p>
+    </section>
+
+    <!-- ============== FOOTER ============== -->
+    <footer class="reveal">
+      <span>© 2026 Huzaifa Khan</span>
+      <span>Available for new projects</span>
+    </footer>
+  </main>
+
+  <script>
+    // Preloader — dismiss after first paint
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const pl = document.getElementById('preloader');
+        if (pl) pl.classList.add('done');
+      }, 350);
+    });
+
+    // Scroll-reveal via IntersectionObserver.
+    // Each section animates in ONCE the first time it enters the viewport,
+    // then stays revealed — even if you scroll back up. This keeps scrolling
+    // smooth (no constant class toggling, no interrupted transitions).
+    // Sections you haven't scrolled to yet still animate in normally when
+    // you reach them, including on scroll-up.
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reducedMotion && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('revealed');
+            io.unobserve(e.target); // one-shot — prevents re-triggering
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+      document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => io.observe(el));
+    } else {
+      document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => el.classList.add('revealed'));
+    }
+
+    // Magnetic hover on the contact email — subtle pull toward the cursor
+    const emailLink = document.querySelector('.email-link');
+    if (emailLink && !reducedMotion && window.matchMedia('(hover: hover)').matches) {
+      const strength = 0.18;
+      emailLink.addEventListener('mousemove', (e) => {
+        const r = emailLink.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width / 2) * strength;
+        const y = (e.clientY - r.top - r.height / 2) * strength;
+        emailLink.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      emailLink.addEventListener('mouseleave', () => {
+        emailLink.style.transform = '';
+      });
+    }
+  </script>
+</body>
+</html>
