@@ -10,7 +10,6 @@
     - Project tech tags (currently reasonable defaults)
 -->
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,7 +22,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet"
+  />
 
   <style>
     :root {
@@ -36,32 +36,9 @@
       --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     }
 
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    html,
-    body,
-    h1,
-    h2,
-    h3,
-    p,
-    ol,
-    ul,
-    li,
-    a,
-    span,
-    div {
-      margin: 0;
-      padding: 0;
-    }
-
-    ol,
-    ul {
-      list-style: none;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body, h1, h2, h3, p, ol, ul, li, a, span, div { margin: 0; padding: 0; }
+    ol, ul { list-style: none; }
 
     html {
       -webkit-text-size-adjust: 100%;
@@ -83,10 +60,7 @@
       background-repeat: repeat;
     }
 
-    ::selection {
-      background: var(--fg);
-      color: var(--bg);
-    }
+    ::selection { background: var(--fg); color: var(--bg); }
 
     main {
       max-width: 1200px;
@@ -107,12 +81,10 @@
       justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s ease;
     }
-
     .preloader.done {
       opacity: 0;
       visibility: hidden;
     }
-
     .preloader-mark {
       font-weight: 700;
       font-size: clamp(80px, 16vw, 180px);
@@ -120,74 +92,36 @@
       line-height: 0.85;
       animation: preloader-pulse 1.2s ease-in-out infinite;
     }
-
     @keyframes preloader-pulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-
-      50% {
-        transform: scale(0.95);
-        opacity: 0.4;
-      }
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.95); opacity: 0.4; }
     }
 
     /* =========================================================
        SCROLL-REVEAL
        ========================================================= */
     .reveal,
-    .reveal-stagger>* {
+    .reveal-stagger > * {
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
-        transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+                  transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
       will-change: opacity, transform;
     }
-
-    .reveal-stagger>* {
-      transition-delay: 0s;
-    }
-
+    .reveal-stagger > * { transition-delay: 0s; }
     .reveal.revealed,
-    .reveal-stagger.revealed>* {
+    .reveal-stagger.revealed > * {
       opacity: 1;
       transform: translateY(0);
     }
-
-    .reveal-stagger.revealed>*:nth-child(1) {
-      transition-delay: 0.05s;
-    }
-
-    .reveal-stagger.revealed>*:nth-child(2) {
-      transition-delay: 0.12s;
-    }
-
-    .reveal-stagger.revealed>*:nth-child(3) {
-      transition-delay: 0.19s;
-    }
-
-    .reveal-stagger.revealed>*:nth-child(4) {
-      transition-delay: 0.26s;
-    }
-
-    .reveal-stagger.revealed>*:nth-child(5) {
-      transition-delay: 0.33s;
-    }
-
-    .reveal-stagger.revealed>*:nth-child(6) {
-      transition-delay: 0.40s;
-    }
-
-    .reveal-stagger.revealed>*:nth-child(7) {
-      transition-delay: 0.47s;
-    }
-
-    .reveal-stagger.revealed>*:nth-child(8) {
-      transition-delay: 0.54s;
-    }
+    .reveal-stagger.revealed > *:nth-child(1) { transition-delay: 0.05s; }
+    .reveal-stagger.revealed > *:nth-child(2) { transition-delay: 0.12s; }
+    .reveal-stagger.revealed > *:nth-child(3) { transition-delay: 0.19s; }
+    .reveal-stagger.revealed > *:nth-child(4) { transition-delay: 0.26s; }
+    .reveal-stagger.revealed > *:nth-child(5) { transition-delay: 0.33s; }
+    .reveal-stagger.revealed > *:nth-child(6) { transition-delay: 0.40s; }
+    .reveal-stagger.revealed > *:nth-child(7) { transition-delay: 0.47s; }
+    .reveal-stagger.revealed > *:nth-child(8) { transition-delay: 0.54s; }
 
     /* =========================================================
        HERO
@@ -211,7 +145,6 @@
       margin-bottom: clamp(24px, 4vw, 48px);
       background: var(--bg);
     }
-
     .pulse-dot {
       width: 8px;
       height: 8px;
@@ -220,19 +153,10 @@
       position: relative;
       animation: pulse 2.2s ease-in-out infinite;
     }
-
     @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.45);
-      }
-
-      70% {
-        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-      }
-
-      100% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-      }
+      0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.45); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
     }
 
     .monogram {
@@ -282,7 +206,6 @@
       margin-left: calc(-1 * var(--pad-x));
       margin-right: calc(-1 * var(--pad-x));
     }
-
     .marquee::before,
     .marquee::after {
       content: "";
@@ -293,24 +216,20 @@
       z-index: 1;
       pointer-events: none;
     }
-
     .marquee::before {
       left: 0;
       background: linear-gradient(to right, var(--fg), transparent);
     }
-
     .marquee::after {
       right: 0;
       background: linear-gradient(to left, var(--fg), transparent);
     }
-
     .marquee-track {
       display: flex;
       white-space: nowrap;
       animation: marquee 38s linear infinite;
       will-change: transform;
     }
-
     .marquee-item {
       font-weight: 700;
       font-size: clamp(13px, 1.4vw, 18px);
@@ -321,27 +240,17 @@
       align-items: center;
       gap: clamp(14px, 2vw, 24px);
     }
-
     .marquee-item::after {
       content: "✦";
       font-size: 0.7em;
       opacity: 0.55;
     }
-
     @keyframes marquee {
-      0% {
-        transform: translateX(0);
-      }
-
-      100% {
-        transform: translateX(-50%);
-      }
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
-
     @media (prefers-reduced-motion: reduce) {
-      .marquee-track {
-        animation: none;
-      }
+      .marquee-track { animation: none; }
     }
 
     /* =========================================================
@@ -351,10 +260,7 @@
       padding: clamp(56px, 9vw, 110px) 0;
       border-bottom: 2px solid var(--rule);
     }
-
-    section:last-of-type {
-      border-bottom: none;
-    }
+    section:last-of-type { border-bottom: none; }
 
     h2 {
       font-weight: 700;
@@ -366,7 +272,6 @@
       align-items: baseline;
       gap: 1.5em;
     }
-
     .num {
       font-weight: 700;
       font-variant-numeric: tabular-nums;
@@ -390,16 +295,11 @@
       border-top: 2px solid var(--fg);
       border-bottom: 2px solid var(--fg);
     }
-
     .stat {
       padding: clamp(20px, 3vw, 36px) clamp(14px, 2vw, 20px);
       border-right: 1px solid var(--fg);
     }
-
-    .stat:last-child {
-      border-right: none;
-    }
-
+    .stat:last-child { border-right: none; }
     .stat-num {
       font-weight: 700;
       font-size: clamp(40px, 7vw, 88px);
@@ -407,14 +307,12 @@
       letter-spacing: -0.04em;
       font-variant-numeric: tabular-nums;
     }
-
     .stat-num .suffix {
       font-size: 0.4em;
       vertical-align: top;
       margin-left: 0.1em;
       font-weight: 500;
     }
-
     .stat-label {
       margin-top: 8px;
       font-size: 10px;
@@ -430,7 +328,6 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-
     .skill {
       font-size: 11px;
       font-weight: 600;
@@ -441,7 +338,6 @@
       border-radius: 100px;
       transition: background 0.25s ease, color 0.25s ease;
     }
-
     .skill:hover {
       background: var(--fg);
       color: var(--bg);
@@ -462,10 +358,7 @@
       text-decoration: none;
       transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
     }
-
-    .project-card:hover {
-      transform: translateY(-6px);
-    }
+    .project-card:hover { transform: translateY(-6px); }
 
     .device-frame {
       border: 2px solid var(--fg);
@@ -476,7 +369,6 @@
       transition: box-shadow 0.4s ease;
       position: relative;
     }
-
     .project-card:hover .device-frame {
       box-shadow: 8px 8px 0 0 var(--fg);
     }
@@ -491,14 +383,12 @@
       font-family: var(--mono);
       font-size: 11px;
     }
-
     .device-dot {
       width: 11px;
       height: 11px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.35);
     }
-
     .device-url {
       margin-left: 14px;
       font-weight: 500;
@@ -523,7 +413,6 @@
       background-position: -1px -1px;
       position: relative;
     }
-
     .device-title {
       font-weight: 700;
       font-size: clamp(28px, 4vw, 52px);
@@ -531,7 +420,6 @@
       letter-spacing: -0.035em;
       max-width: 90%;
     }
-
     .device-meta {
       display: flex;
       justify-content: space-between;
@@ -555,20 +443,17 @@
       gap: 12px;
       flex-wrap: wrap;
     }
-
     .project-desc {
       font-size: clamp(14px, 1.25vw, 16px);
       line-height: 1.55;
       opacity: 0.72;
       margin-bottom: 18px;
     }
-
     .project-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
-
     .project-tags span {
       font-size: 10px;
       letter-spacing: 0.14em;
@@ -578,7 +463,6 @@
       border: 1.5px solid var(--fg);
       transition: background 0.25s ease, color 0.25s ease;
     }
-
     .project-card:hover .project-tags span {
       background: var(--fg);
       color: var(--bg);
@@ -606,11 +490,8 @@
       margin: 0 calc(-1 * var(--pad-x));
       padding: clamp(64px, 10vw, 120px) var(--pad-x);
     }
-
     #contact h2,
-    #contact .num {
-      color: var(--bg);
-    }
+    #contact .num { color: var(--bg); }
 
     #contact .email-link {
       display: inline-block;
@@ -626,10 +507,7 @@
       transition: opacity 0.2s ease;
       will-change: transform;
     }
-
-    #contact .email-link:hover {
-      opacity: 0.85;
-    }
+    #contact .email-link:hover { opacity: 0.85; }
 
     /* Phone — secondary contact under the email */
     #contact .alt-contact {
@@ -639,7 +517,6 @@
       gap: clamp(10px, 1.4vw, 16px);
       flex-wrap: wrap;
     }
-
     #contact .alt-label {
       font-family: var(--mono);
       font-size: clamp(10px, 1vw, 12px);
@@ -648,7 +525,6 @@
       opacity: 0.55;
       font-weight: 500;
     }
-
     #contact .phone-link {
       color: var(--bg);
       text-decoration: none;
@@ -659,11 +535,7 @@
       padding-bottom: 0.05em;
       transition: opacity 0.2s ease;
     }
-
-    #contact .phone-link:hover {
-      opacity: 0.7;
-    }
-
+    #contact .phone-link:hover { opacity: 0.7; }
     #contact .hint {
       margin-top: clamp(20px, 3vw, 32px);
       font-weight: 400;
@@ -693,24 +565,13 @@
        MOBILE
        ========================================================= */
     @media (max-width: 860px) {
-      .project-grid {
-        grid-template-columns: 1fr;
-      }
+      .project-grid { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 720px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .stat:nth-child(2) {
-        border-right: none;
-      }
-
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: none; }
       .stat:nth-child(1),
-      .stat:nth-child(2) {
-        border-bottom: 1px solid var(--fg);
-      }
+      .stat:nth-child(2) { border-bottom: 1px solid var(--fg); }
 
       footer {
         flex-direction: column;
@@ -720,30 +581,13 @@
 
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
-
-      .reveal,
-      .reveal-stagger>* {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-
-      .pulse-dot {
-        animation: none;
-      }
-
-      .project-card,
-      .project-card:hover {
-        transform: none;
-      }
-
-      .project-card:hover .device-frame {
-        box-shadow: none;
-      }
+      .reveal, .reveal-stagger > * { opacity: 1; transform: none; transition: none; }
+      .pulse-dot { animation: none; }
+      .project-card, .project-card:hover { transform: none; }
+      .project-card:hover .device-frame { box-shadow: none; }
     }
   </style>
 </head>
-
 <body>
 
   <!-- ============== PRELOADER ============== -->
@@ -839,18 +683,19 @@
       <h2 class="reveal"><span class="num">02</span> Selected work</h2>
 
       <div class="project-grid">
-        <a class="project-card reveal" href="https://aaajay-detailing.onrender.com/" target="_blank"
-          rel="noopener noreferrer">
+        <a class="project-card reveal"
+           href="https://aaajay-detailing.onrender.com"
+           target="_blank" rel="noopener noreferrer">
 
           <div class="device-frame">
             <div class="device-bar">
               <span class="device-dot"></span>
               <span class="device-dot"></span>
               <span class="device-dot"></span>
-              <span class="device-url">orlando-car-detailingg.onrender.com</span>
+              <span class="device-url">aaajay-detailing.onrender.com</span>
             </div>
             <div class="device-screen">
-              <div class="device-title">AAA&amp;JAY<br />Mobile Detailing</div>
+              <div class="device-title">AAA&amp;JAY<br/>Car Detailing</div>
               <div class="device-meta">
                 <span>2025</span>
                 <span class="status">Live</span>
@@ -859,7 +704,7 @@
           </div>
 
           <div class="project-title">
-            AAA&amp;JAY Mobile Detailing
+            AAA&amp;JAY Car Detailing
             <span class="status">Live</span>
           </div>
           <p class="project-desc">
@@ -876,8 +721,9 @@
           </div>
         </a>
 
-        <a class="project-card reveal" href="https://aaajay-detailing.onrender.com/" target="_blank"
-          rel="noopener noreferrer">
+        <a class="project-card reveal"
+           href="https://orlando-car-detailingg.onrender.com/"
+           target="_blank" rel="noopener noreferrer">
 
           <div class="device-frame">
             <div class="device-bar">
@@ -887,7 +733,7 @@
               <span class="device-url">orlando-car-detailingg.onrender.com</span>
             </div>
             <div class="device-screen">
-              <div class="device-title">Orlando<br />Car Detailing</div>
+              <div class="device-title">Orlando<br/>Car Detailing</div>
               <div class="device-meta">
                 <span>2025</span>
                 <span class="status">Live</span>
@@ -896,7 +742,7 @@
           </div>
 
           <div class="project-title">
-            Orlando Detailing Car Website
+            Orlando Car Detailing
             <span class="status">Live</span>
           </div>
           <p class="project-desc">
@@ -981,5 +827,4 @@
     }
   </script>
 </body>
-
 </html>
